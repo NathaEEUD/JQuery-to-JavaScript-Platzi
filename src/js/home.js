@@ -42,13 +42,35 @@ const getUserAll = new Promise(function(todoBien, todoMal) {
 //     console.log(message);
 // })
 
-Promise.race([
-    getUser,
-    getUserAll
-])
-.then(function(message) {
-    console.log(message);
-})
-.catch(function(message) {
-    console.log(message);
-})
+// Promise.race([
+//     getUser,
+//     getUserAll
+// ])
+// .then(function(message) {
+//     console.log(message);
+// })
+// .catch(function(message) {
+//     console.log(message);
+// })
+
+// $.ajax('https://randomuser.me/api/slgmsgmdpfgm', {
+//     method: 'GET',
+//     success: function(data) {
+//         console.log(data);
+//     },
+//     error: function(error) {
+//         console.log(error);
+//     }
+// })
+
+fetch('https://randomuser.me/api/sgsngisng')
+    .then(function(response) {
+        // console.log(response);
+        return response.json()
+    })
+    .then(function(data) {
+        console.log('user', data.results[0].name.first);
+    })
+    .catch(function() {
+        console.log('algo falló')
+    })
