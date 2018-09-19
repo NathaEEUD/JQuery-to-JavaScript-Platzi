@@ -100,21 +100,29 @@ fetch('https://randomuser.me/api/sgsngisng')
             </div>`
         )
     }
-    // console.log(videoItemTemplate('src/images/covers/bitcoin.jpg', 'bitcoin'))
 
-    const $actionContainer = document.querySelector('#action');
-    const $dramaContainer = document.getElementById('#drama');
-    const $animationContainer = document.getElementById('#animation');
-    
-    actionList.data.movies.forEach((movie) => {
-        const HTMLString = videoItemTemplate(movie);
+    function createTemplate(HTMLString) {
         const html = document.implementation.createHTMLDocument();
-        // debugger
         html.body.innerHTML = HTMLString;
-        // debugger
-        $actionContainer.append(html.body.children[0]);
-        console.log(HTMLString);
-    });
+        return html.body.children[0];
+    }
+    
+    function renderMovieList(list, $container) {
+        $container.children[0].remove();
+        list.forEach((movie) => {
+            const HTMLString = videoItemTemplate(movie);
+            const movieElement = createTemplate(HTMLString);
+            $container.append(movieElement);
+        });
+    }
+    
+    const $actionContainer = document.querySelector('#action');
+    const $dramaContainer = document.getElementById('drama');
+    const $animationContainer = document.getElementById('animation');
+    
+    renderMovieList(actionList.data.movies, $actionContainer);
+    renderMovieList(dramaList.data.movies, $dramaContainer);
+    renderMovieList(animationList.data.movies, $animationContainer);
 
     const $featuringContainer = document.getElementById('#featuring');
     const $form = document.getElementById('#form');
@@ -127,6 +135,5 @@ fetch('https://randomuser.me/api/sgsngisng')
     const modalTitle = $modal.querySelector('h1');
     const modalImage = $modal.querySelector('img');
     const modalDescription = $modal.querySelector('p');
-
 
 })();
