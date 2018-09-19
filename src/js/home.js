@@ -82,6 +82,12 @@ fetch('https://randomuser.me/api/sgsngisng')
         return data;
     }
 
+    const $form = document.getElementById('form');
+    $form.addEventListener('submit', (event) => {
+        // debugger
+        event.preventDefault();
+    });
+
     const actionList = await getData('https://yts.am/api/v2/list_movies.json?genre=action');
     const dramaList = await getData('https://yts.am/api/v2/list_movies.json?genre=drama');
     const animationList = await getData('https://yts.am/api/v2/list_movies.json?genre=animation');
@@ -106,6 +112,12 @@ fetch('https://randomuser.me/api/sgsngisng')
         html.body.innerHTML = HTMLString;
         return html.body.children[0];
     }
+
+    function addEventClick($element) {
+        $element.addEventListener('click', () => {
+            alert('click');
+        })
+    }
     
     function renderMovieList(list, $container) {
         $container.children[0].remove();
@@ -113,6 +125,7 @@ fetch('https://randomuser.me/api/sgsngisng')
             const HTMLString = videoItemTemplate(movie);
             const movieElement = createTemplate(HTMLString);
             $container.append(movieElement);
+            addEventClick(movieElement);
         });
     }
     
@@ -125,7 +138,6 @@ fetch('https://randomuser.me/api/sgsngisng')
     renderMovieList(animationList.data.movies, $animationContainer);
 
     const $featuringContainer = document.getElementById('#featuring');
-    const $form = document.getElementById('#form');
     const $home = document.getElementById('#home');
 
     const $modal = document.getElementById('modal');
