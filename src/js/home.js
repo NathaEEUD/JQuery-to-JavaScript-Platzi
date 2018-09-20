@@ -83,9 +83,11 @@ fetch('https://randomuser.me/api/sgsngisng')
     }
 
     const $form = document.getElementById('form');
+    const $home = document.getElementById('home');
+
     $form.addEventListener('submit', (event) => {
-        // debugger
         event.preventDefault();
+        $home.classList.add('search-active');
     });
 
     const actionList = await getData('https://yts.am/api/v2/list_movies.json?genre=action');
@@ -93,6 +95,13 @@ fetch('https://randomuser.me/api/sgsngisng')
     const animationList = await getData('https://yts.am/api/v2/list_movies.json?genre=animation');
     console.log(actionList, dramaList, animationList);
     // debugger
+    const $modal = document.getElementById('modal');
+    const $overlay = document.getElementById('overlay');
+    const $hideModal = document.getElementById('hide-modal');
+
+    const modalTitle = $modal.querySelector('h1');
+    const modalImage = $modal.querySelector('img');
+    const modalDescription = $modal.querySelector('p');
     
     function videoItemTemplate(movie) {
         return (
@@ -113,11 +122,23 @@ fetch('https://randomuser.me/api/sgsngisng')
         return html.body.children[0];
     }
 
+    function showModal() {
+        $overlay.classList.add('active');
+        $modal.style.animation = 'modalIn .8s forwards';
+    }
+
+    function hideModal() {
+        $overlay.classList.remove('active');
+        $modal.style.animation = 'modalOut .8s forwards';
+    }
+
     function addEventClick($element) {
         $element.addEventListener('click', () => {
-            alert('click');
+            showModal();
         })
     }
+
+    $hideModal.addEventListener('click', hideModal);
     
     function renderMovieList(list, $container) {
         $container.children[0].remove();
@@ -138,14 +159,7 @@ fetch('https://randomuser.me/api/sgsngisng')
     renderMovieList(animationList.data.movies, $animationContainer);
 
     const $featuringContainer = document.getElementById('#featuring');
-    const $home = document.getElementById('#home');
 
-    const $modal = document.getElementById('modal');
-    const $overlay = document.getElementById('overlay');
-    const $hideModal = document.getElementById('hide-modal');
-
-    const modalTitle = $modal.querySelector('h1');
-    const modalImage = $modal.querySelector('img');
-    const modalDescription = $modal.querySelector('p');
+    
 
 })();
