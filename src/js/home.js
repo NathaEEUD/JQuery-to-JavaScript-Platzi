@@ -130,11 +130,6 @@ fetch('https://randomuser.me/api/sgsngisng')
         $featuringContainer.innerHTML = HTMLString;
     });
 
-    const { data: { movies: actionList }} = await getData(`${BASE_API}list_movies.json?genre=action`);
-    const { data: { movies: dramaList }} = await getData(`${BASE_API}list_movies.json?genre=drama`);
-    const { data: { movies: animationList }} = await getData(`${BASE_API}list_movies.json?genre=animation`);
-    console.log(actionList, dramaList, animationList);
-    // debugger
     const $modal = document.getElementById('modal');
     const $overlay = document.getElementById('overlay');
     const $hideModal = document.getElementById('hide-modal');
@@ -211,17 +206,29 @@ fetch('https://randomuser.me/api/sgsngisng')
             const HTMLString = videoItemTemplate(movie, category);
             const movieElement = createTemplate(HTMLString);
             $container.append(movieElement);
+            
+            // animaciones
+            const image = movieElement.querySelector('img');
+            image.addEventListener('load', (event) => {
+                event.srcElement.classList.add('fadeIn');
+            });
+
             addEventClick(movieElement);
         });
     }
-    
-    const $actionContainer = document.querySelector('#action');
-    const $dramaContainer = document.getElementById('drama');
-    const $animationContainer = document.getElementById('animation');
-    
-    renderMovieList(actionList, $actionContainer, 'action');
-    renderMovieList(dramaList, $dramaContainer, 'drama');
-    renderMovieList(animationList, $animationContainer, 'animation');
 
+    const { data: { movies: actionList }} = await getData(`${BASE_API}list_movies.json?genre=action`);
+    const $actionContainer = document.querySelector('#action');
+    renderMovieList(actionList, $actionContainer, 'action');
+
+    const { data: { movies: dramaList }} = await getData(`${BASE_API}list_movies.json?genre=drama`);
+    const $dramaContainer = document.getElementById('drama');
+    renderMovieList(dramaList, $dramaContainer, 'drama');
+
+    const { data: { movies: animationList }} = await getData(`${BASE_API}list_movies.json?genre=animation`);
+    const $animationContainer = document.getElementById('animation');
+    renderMovieList(animationList, $animationContainer, 'animation');
     
+    // console.log(actionList, dramaList, animationList);
+    // debugger
 })();
