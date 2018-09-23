@@ -79,7 +79,10 @@ fetch('https://randomuser.me/api/sgsngisng')
     async function getData(url) {
         const response = await fetch(url);
         const data = await response.json();
-        return data;
+        if (data.data.movie_count > 0) {
+            return data;
+        }
+        throw new Error('No se encontró ningún resultado.');
     }
 
     const $form = document.getElementById('form');
@@ -121,13 +124,20 @@ fetch('https://randomuser.me/api/sgsngisng')
         $featuringContainer.append($loader);
 
         const data = new FormData($form);
-        const {
-            data: {
-                movies: pelis
-            }
-        } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);
-        const HTMLString = featuringTemplate(pelis[0]);
-        $featuringContainer.innerHTML = HTMLString;
+        try {
+            const {
+                data: {
+                    movies: pelis
+                }
+            } = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`);
+            const HTMLString = featuringTemplate(pelis[0]);
+            $featuringContainer.innerHTML = HTMLString;
+        } catch (error) {
+            // debugger
+            alert(error.message);
+            $loader.remove();
+            $home.classList.remove('search-active');
+        }
     });
 
     const $modal = document.getElementById('modal');
