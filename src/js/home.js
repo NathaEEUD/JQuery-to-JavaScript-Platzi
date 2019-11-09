@@ -19,7 +19,7 @@ const $playlistContainer = document.querySelector('.myPlaylist');
 const $friendsContainer = document.querySelector('.playlistFriends');
 
 const FRIENDS_API = 'https://randomuser.me/api/';
-const MOVIES_API = 'https://yts.am/api/v2/';
+const MOVIES_API = 'https://yts.lt/api/v2/';
 
 (async function load() {
   async function getData(url) {
